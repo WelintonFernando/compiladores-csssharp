@@ -1,0 +1,33 @@
+>>corPrimaria: #FF00FF
+>>larguraPadrao: 200
+>>tema: 'claro'
+
+%if tema == 'escuro'
+    body {
+        background-color: #000000
+        color: #FFFFFF
+    }
+%elseif tema == 'claro'
+    body {
+        background-color: #FFFFFF
+        color: #000000
+    }
+%else
+    body {
+        background-color: #CCCCCC
+        color: #333333
+    }
+%endif
+
+#container {
+    width: 500px
+    height: 300px
+    color: rgb(255, 255, 255)
+    margin: 10px
+}
+
+%switch tema
+    %case >>escuro: .titulo { color: #00FF00 }
+    %case >>claro: .titulo { color: #0000FF }
+    default: .titulo { color: #FF0000 }
+%endswitch
