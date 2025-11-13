@@ -2,32 +2,37 @@
 >>larguraPadrao: 200
 >>tema: 'claro'
 
-%if tema == 'escuro'
+%if tema == 'escuro':
     body {
-        background-color: #000000
-        color: #FFFFFF
+        background-color: #000000;
+        color: #FFFFFF;
     }
-%elseif tema == 'claro'
+%elseif tema == 'claro':
     body {
-        background-color: #FFFFFF
-        color: #000000
+        background-color: #FFFFFF;
+        color: #000000;
     }
-%else
+%else:
     body {
-        background-color: #CCCCCC
-        color: #333333
+        background-color: #CCCCCC;
+        color: #333333;
     }
 %endif
 
 #container {
-    width: 500px
-    height: 300px
-    color: rgb(255, 255, 255)
-    margin: 10px
+    width: 500px;
+    height: 300px;
+    color: rgb(255, 255, 255);
+    margin: 10px;
 }
 
-%switch tema
-    %case >>escuro: .titulo { color: #00FF00 }
-    %case >>claro: .titulo { color: #0000FF }
-    default: .titulo { color: #FF0000 }
+div {
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+%switch tema:
+    %case escuro: .titulo { color: #00FF00; }
+    %case claro: .titulo { color: #0000FF; }
+    %default: .titulo { color: #FF0000; }
 %endswitch
