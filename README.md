@@ -20,6 +20,6 @@
 ### 2. Analisador Léxico:
 
 ####  2.1 Classes:
-#### 2.1.1 <nome da classe> Usado em [<uso1>, <uso2>, ...]qq é pra faze
+#### 2.1.1 <nome da classe> Usado em [<uso1>, <uso2>, ...]
 
 
