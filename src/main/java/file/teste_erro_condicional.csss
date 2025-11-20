@@ -1,0 +1,33 @@
+>>largura: 100px
+>>corBase: #FFFFFF
+
+%if modoEscuro == 'sim':
+    body {
+        background-color: #000000;
+    }
+%endif
+
+%switch tema:
+    %case dark: .titulo { color: corNaoDeclarada; }
+    %case light: .titulo { color: corBase; }
+%endswitch
+
+invalidtag {
+    color: #FF0000;
+}
+
+customElement {
+    background-color: corBase;
+}
+
+#box {
+    width: altura + 50;
+    height: altura * 2;
+    margin: espacamento / 2;
+}
+
+.texto {
+    font-size: corBase;
+    color: 'texto invalido';
+    border: umaVariavelQualquer;
+}

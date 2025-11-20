@@ -1,0 +1,16 @@
+
+>>corPrimaria: #FF00FF
+>>tamanho: 100px
+
+body {
+    background-color: corSecundaria;
+    width: larguraInvalida;
+    height: tamanho;
+}
+
+varNaoExiste: 500px;
+
+#container {
+    color: corPrimaria;
+    margin: espacamento;
+}

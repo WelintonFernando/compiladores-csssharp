@@ -26,7 +26,7 @@
                             <sourceDirectory>src/main/antlr4</sourceDirectory>
                             <libDirectory>src/main/antlr4/br/edu/ifsp/pep/lexico</libDirectory>
                             <listener>true</listener>
-                            <visitor>false</visitor>
+                            <visitor>true</visitor>
                         </configuration>
                     </execution>
                 </executions>

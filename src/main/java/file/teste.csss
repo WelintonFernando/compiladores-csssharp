@@ -1,6 +1,6 @@
 >>corPrimaria: #FF00FF
 >>larguraPadrao: 200
->>tema: 'claro'
+>>tema: 'escuro'
 
 %if tema == 'escuro':
     body {

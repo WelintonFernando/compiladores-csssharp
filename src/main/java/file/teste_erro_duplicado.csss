@@ -1,0 +1,22 @@
+
+>>corPrimaria: #FF0000
+>>largura: 100px
+>>corPrimaria: #00FF00
+
+>>altura: 200px
+>>largura: 300px
+
+body {
+    background-color: corPrimaria;
+    width: largura;
+    height: altura;
+}
+
+>>tema: 'claro'
+>>tema: 'escuro'
+
+%if tema == 'claro':
+    .titulo {
+        color: #000000;
+    }
+%endif

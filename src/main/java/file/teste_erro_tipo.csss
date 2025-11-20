@@ -1,0 +1,19 @@
+
+
+>>largura: 200px
+>>cor: #FF00FF
+>>texto: 'Arial'
+
+largura: #000000;
+
+cor: 500;
+
+body {
+    background-color: largura;
+    width: cor;
+}
+
+.container {
+    font-family: texto;
+    color: 300px;
+}
