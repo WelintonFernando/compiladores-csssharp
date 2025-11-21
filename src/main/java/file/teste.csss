@@ -1,5 +1,5 @@
 >>corPrimaria: #FF00FF
->>larguraPadrao: 200
+>>larguraPadrao: 200px
 >>tema: 'escuro'
 
 %if tema == 'escuro':
@@ -20,16 +20,19 @@
 %endif
 
 #container {
-    width: 500px;
+    width: larguraPadrao;
     height: 300px;
     color: rgb(255, 255, 255);
     margin: 10px;
 }
 
+>>branco: #FFFFFF
+
 div {
-    color: #FFFFFF;
+    color: branco;
     border: 1px solid #000000;
 }
+
 
 %switch tema:
     %case escuro: .titulo { color: #00FF00; }

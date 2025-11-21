@@ -1,2 +1,21 @@
-/* CSS gerado automaticamente pelo compilador CSS# */
+body {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+#container {
+    width: 200px;
+    height: 300px;
+    color: rgb(255, 255, 255);
+    margin: 10px;
+}
+
+div {
+    color: #FFFFFF;
+    border: 1px solid #000000;
+}
+
+.titulo {
+    color: #00FF00;
+}
 

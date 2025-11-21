@@ -5,17 +5,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.antlr.v4.runtime.Token;
-
 import br.edu.ifsp.pep.csss.TabelaDeSimbolos.TipoCSSSharp;
 import br.edu.ifsp.pep.lexico.CssSharpParser;
 
 public class CSSSharpSemanticoUtils {
     
     public static List<String> errosSemanticos = new ArrayList<>();
-    
-    // Propriedades CSS válidas suportadas
+
+    // tudo que está la no lexico.
     private static final Set<String> PROPRIEDADES_VALIDAS = new HashSet<>(Arrays.asList(
         "top", "left", "width", "height", "font-size", "margin", "padding",
         "color", "background-color", "border", "display", "position",
@@ -23,7 +21,6 @@ public class CSSSharpSemanticoUtils {
         "font-weight", "font-style", "text-decoration"
     ));
     
-    // Palavras-chave CSS válidas
     private static final Set<String> PALAVRAS_CHAVE_CSS = new HashSet<>(Arrays.asList(
         "solid", "dashed", "dotted", "double", "none", "hidden",
         "bold", "normal", "italic", "underline", "overline", "line-through",
@@ -32,7 +29,6 @@ public class CSSSharpSemanticoUtils {
         "left", "right", "center", "justify", "auto", "transparent"
     ));
     
-    // Tags HTML válidas
     private static final Set<String> TAGS_VALIDAS = new HashSet<>(Arrays.asList(
         "html", "head", "title", "body", "header", "footer", "nav",
         "section", "article", "aside", "main", "h1", "h2", "h3",
@@ -42,7 +38,9 @@ public class CSSSharpSemanticoUtils {
         "tfoot", "form", "input", "textarea", "button", "select",
         "option", "label", "style", "link", "script", "div", "span", "iframe"
     ));
-    
+    // ===================================================================================
+
+
     public static void adicionarErroSemantico(Token t, String mensagem) {
         int linha = t.getLine();
         int coluna = t.getCharPositionInLine() + 1;
@@ -61,7 +59,6 @@ public class CSSSharpSemanticoUtils {
         return TAGS_VALIDAS.contains(tag);
     }
     
-    // Verifica se é um valor numérico válido
     public static TipoCSSSharp verificarTipoValor(CssSharpParser.ValorContext ctx, TabelaDeSimbolos tabela) {
         if (ctx.DIGITO() != null || ctx.DIGITO_REAL() != null) {
             return TipoCSSSharp.NUMERO;
@@ -73,11 +70,12 @@ public class CSSSharpSemanticoUtils {
             return TipoCSSSharp.COR;
         } else if (ctx.PALAVRA() != null) {
             String palavra = ctx.PALAVRA().getText();
-            // Verifica se é uma variável
+
+            // variável?
             if (tabela.existe(palavra)) {
                 return tabela.verificar(palavra);
             }
-            // Verifica se é uma palavra-chave CSS válida
+            // palavra-chave?
             if (palavraChaveValida(palavra)) {
                 return TipoCSSSharp.PALAVRA_CHAVE;
             }
@@ -88,18 +86,15 @@ public class CSSSharpSemanticoUtils {
         return TipoCSSSharp.INVALIDO;
     }
     
-    // Verifica tipo de expressão (aritmética ou lógica)
     public static TipoCSSSharp verificarTipoExpressao(CssSharpParser.ExpressaoContext ctx, TabelaDeSimbolos tabela) {
         if (ctx.expressaoAritmetica() != null) {
             return verificarTipoExpressaoAritmetica(ctx.expressaoAritmetica(), tabela);
         } else if (ctx.expressaoLogica() != null) {
-            // Expressões lógicas retornam booleano, mas no contexto CSS não são valores válidos
             return TipoCSSSharp.INVALIDO;
         }
         return TipoCSSSharp.INVALIDO;
     }
     
-    // Verifica tipo de expressão aritmética
     public static TipoCSSSharp verificarTipoExpressaoAritmetica(CssSharpParser.ExpressaoAritmeticaContext ctx, TabelaDeSimbolos tabela) {
         TipoCSSSharp tipoResultado = TipoCSSSharp.NUMERO;
         
@@ -108,7 +103,7 @@ public class CSSSharpSemanticoUtils {
             if (tipoTermo == TipoCSSSharp.INVALIDO) {
                 return TipoCSSSharp.INVALIDO;
             }
-            // Se algum termo for medida, o resultado é medida
+            // se algum termo for MEDIDA, o resultado será MEDIDA
             if (tipoTermo == TipoCSSSharp.MEDIDA) {
                 tipoResultado = TipoCSSSharp.MEDIDA;
             }
@@ -117,7 +112,6 @@ public class CSSSharpSemanticoUtils {
         return tipoResultado;
     }
     
-    // Verifica tipo de termo
     public static TipoCSSSharp verificarTipoTermo(CssSharpParser.TermoContext ctx, TabelaDeSimbolos tabela) {
         TipoCSSSharp tipoResultado = TipoCSSSharp.NUMERO;
         
@@ -126,7 +120,8 @@ public class CSSSharpSemanticoUtils {
             if (tipoFator == TipoCSSSharp.INVALIDO) {
                 return TipoCSSSharp.INVALIDO;
             }
-            // Se algum fator for medida, o resultado é medida
+
+            // se o valor do fator tiver medida, o resultado do termo também será medida
             if (tipoFator == TipoCSSSharp.MEDIDA) {
                 tipoResultado = TipoCSSSharp.MEDIDA;
             }
@@ -135,7 +130,6 @@ public class CSSSharpSemanticoUtils {
         return tipoResultado;
     }
     
-    // Verifica tipo de fator
     public static TipoCSSSharp verificarTipoFator(CssSharpParser.FatorContext ctx, TabelaDeSimbolos tabela) {
         if (ctx.DIGITO() != null || ctx.DIGITO_REAL() != null) {
             return TipoCSSSharp.NUMERO;
@@ -154,10 +148,8 @@ public class CSSSharpSemanticoUtils {
         return TipoCSSSharp.INVALIDO;
     }
     
-    // Verifica se a cor está no formato válido
     public static boolean verificarCor(CssSharpParser.CorContext ctx) {
         if (ctx.HEX() != null) {
-            // Cor hexadecimal já validada pelo lexer
             return true;
         } else if (ctx.PALAVRA_CHAVE() != null) {
             String funcao = ctx.PALAVRA_CHAVE().getText();

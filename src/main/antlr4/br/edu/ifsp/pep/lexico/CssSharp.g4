@@ -1,15 +1,15 @@
 grammar CssSharp;
 import CssSharpLexico;
 
-// Regra inicial - permite variáveis e regras CSS
-programa: (declaracaoVariavel | regra | condicional | switchCase | atribuicao)+ EOF;
+// regra inicial - permite variáveis e regras CSS
+programa: (declaracaoVariavel | regra | condicional | switchCase | atribuicao)* EOF;
 
 // Declaração de variável: >> nomeVar: valor
 declaracaoVariavel: VAR_DEF PALAVRA DOIS_PONTOS valor;
 
 atribuicao: PALAVRA DOIS_PONTOS valor PONTO_VIRGULA;
 
-// Regras CSS normais
+// regras do CSS
 regra: seletor ABRE_CHAVES propriedades FECHA_CHAVES;
 
 seletor: HASHTAG PALAVRA     // #id
@@ -20,7 +20,7 @@ seletor: HASHTAG PALAVRA     // #id
 
 propriedades: (ATRIBUTOS DOIS_PONTOS valores PONTO_VIRGULA)*;
 
-// Suporta múltiplos valores: border: 1px solid #000000;
+// pra poder fazer: border: 1px solid #000000;
 valores: valor+;
 
 valor: STRING
@@ -36,7 +36,7 @@ medida: DIGITO_REAL UNIDADE_MEDIDA
       | DIGITO
       ;
 
-// Estruturas condicionais
+// condicional
 condicional: PALAVRA_CHAVE ifStatement elseifStatement* elseStatement? PALAVRA_CHAVE;
 
 ifStatement: ( expressaoLogica | PALAVRA) DOIS_PONTOS regra;  // %if tema == 'escuro':

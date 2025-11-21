@@ -18,14 +18,14 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     public Void visitDeclaracaoVariavel(CssSharpParser.DeclaracaoVariavelContext ctx) {
         String nomeVar = ctx.PALAVRA().getText();
         
-        // Verifica se a variável já foi declarada
+        // verifica se a variavel ja foi declarada
         if (tabela.existe(nomeVar)) {
             CSSSharpSemanticoUtils.adicionarErroSemantico(
                 ctx.PALAVRA().getSymbol(),
                 "variável '" + nomeVar + "' já foi declarada anteriormente"
             );
         } else {
-            // Verifica o tipo do valor sendo atribuído
+            // verifica tipo valor = atribuído
             TipoCSSSharp tipo = CSSSharpSemanticoUtils.verificarTipoValor(ctx.valor(), tabela);
             
             if (tipo == TipoCSSSharp.INVALIDO) {
@@ -34,7 +34,6 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
                     "valor inválido para a variável '" + nomeVar + "'"
                 );
             } else {
-                // Captura o valor textual para armazenar na tabela
                 String valor = ctx.valor().getText();
                 tabela.adicionar(nomeVar, tipo, valor);
             }
@@ -47,14 +46,14 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     public Void visitAtribuicao(CssSharpParser.AtribuicaoContext ctx) {
         String nomeVar = ctx.PALAVRA().getText();
         
-        // Verifica se a variável foi declarada
+        // verifica se foi declarada
         if (!tabela.existe(nomeVar)) {
             CSSSharpSemanticoUtils.adicionarErroSemantico(
                 ctx.PALAVRA().getSymbol(),
                 "variável '" + nomeVar + "' não foi declarada"
             );
         } else {
-            // Verifica se o tipo do valor é compatível
+            // verifica se o tipo é compatível
             TipoCSSSharp tipoVar = tabela.verificar(nomeVar);
             TipoCSSSharp tipoValor = CSSSharpSemanticoUtils.verificarTipoValor(ctx.valor(), tabela);
             
@@ -77,12 +76,11 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitRegra(CssSharpParser.RegraContext ctx) {
-        // Valida o seletor
+        // valida seletor e propriedade
         if (ctx.seletor() != null) {
             visitSeletor(ctx.seletor());
         }
-        
-        // Valida as propriedades
+
         if (ctx.propriedades() != null) {
             visitPropriedades(ctx.propriedades());
         }
@@ -109,12 +107,11 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitPropriedades(CssSharpParser.PropriedadesContext ctx) {
-        // Itera sobre cada propriedade CSS
         for (int i = 0; i < ctx.ATRIBUTOS().size(); i++) {
             String propriedade = ctx.ATRIBUTOS(i).getText();
             CssSharpParser.ValoresContext valores = ctx.valores(i);
             
-            // Verifica se a propriedade é válida
+            // verifica se é válido
             if (!CSSSharpSemanticoUtils.propriedadeValida(propriedade)) {
                 CSSSharpSemanticoUtils.adicionarErroSemantico(
                     ctx.ATRIBUTOS(i).getSymbol(),
@@ -122,7 +119,7 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
                 );
             }
             
-            // Valida os valores da propriedade
+            // valida os valores
             if (valores != null) {
                 for (CssSharpParser.ValorContext valor : valores.valor()) {
                     TipoCSSSharp tipo = CSSSharpSemanticoUtils.verificarTipoValor(valor, tabela);
@@ -141,19 +138,19 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitCondicional(CssSharpParser.CondicionalContext ctx) {
-        // Valida o if statement
+        // valida if
         if (ctx.ifStatement() != null) {
             visitIfStatement(ctx.ifStatement());
         }
         
-        // Valida os elseif statements
+        // valide elseif
         if (ctx.elseifStatement() != null) {
             for (CssSharpParser.ElseifStatementContext elseif : ctx.elseifStatement()) {
                 visitElseifStatement(elseif);
             }
         }
         
-        // Valida o else statement
+        // valida else
         if (ctx.elseStatement() != null) {
             visitElseStatement(ctx.elseStatement());
         }
@@ -163,7 +160,7 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitIfStatement(CssSharpParser.IfStatementContext ctx) {
-        // Valida a expressão lógica ou variável
+        // valida expressão lógica ou variável
         if (ctx.expressaoLogica() != null) {
             visitExpressaoLogica(ctx.expressaoLogica());
         } else if (ctx.PALAVRA() != null) {
@@ -176,7 +173,7 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
             }
         }
         
-        // Valida a regra CSS dentro do if
+        // valida regra
         if (ctx.regra() != null) {
             visitRegra(ctx.regra());
         }
@@ -186,7 +183,7 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitExpressaoLogica(CssSharpParser.ExpressaoLogicaContext ctx) {
-        // Valida os operandos da expressão lógica
+        // Valida o operando1 da expressão lógica
         if (ctx.PALAVRA(0) != null) {
             String var1 = ctx.PALAVRA(0).getText();
             if (!tabela.existe(var1) && !CSSSharpSemanticoUtils.palavraChaveValida(var1)) {
@@ -196,7 +193,8 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
                 );
             }
         }
-        
+
+        // Valida o operando2 da expressão lógica
         if (ctx.PALAVRA(1) != null) {
             String var2 = ctx.PALAVRA(1).getText();
             if (!tabela.existe(var2) && !CSSSharpSemanticoUtils.palavraChaveValida(var2)) {
@@ -223,14 +221,14 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
             }
         }
         
-        // Valida cada case statement
+        // Valida cada case
         if (ctx.caseStatement() != null) {
             for (CssSharpParser.CaseStatementContext caseStmt : ctx.caseStatement()) {
                 visitCaseStatement(caseStmt);
             }
         }
         
-        // Valida o default statement
+        // Valida o default
         if (ctx.defaultStatement() != null) {
             visitDefaultStatement(ctx.defaultStatement());
         }
@@ -240,7 +238,7 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitCaseStatement(CssSharpParser.CaseStatementContext ctx) {
-        // Valida a regra CSS dentro do case
+        // Verifica se o código do case está correto
         if (ctx.regra() != null) {
             visitRegra(ctx.regra());
         }
@@ -250,7 +248,7 @@ public class CSSSharpSemantico extends CssSharpBaseVisitor<Void> {
     
     @Override
     public Void visitDefaultStatement(CssSharpParser.DefaultStatementContext ctx) {
-        // Valida a regra CSS dentro do default
+        // Verifica se o código do default está correto
         if (ctx.regra() != null) {
             visitRegra(ctx.regra());
         }

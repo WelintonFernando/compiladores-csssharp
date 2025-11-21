@@ -6,19 +6,21 @@ import java.util.Map;
 public class TabelaDeSimbolos {
     
     public enum TipoCSSSharp {
-        NUMERO,         // Valores numéricos (px, vh, vw, pt, rem, em)
-        COR,            // Cores (hex, rgb, rgba)
-        STRING,         // Strings
-        MEDIDA,         // Medidas com unidade
-        PALAVRA_CHAVE,  // Palavras-chave CSS (solid, bold, etc)
+        NUMERO,         // px, vh, vw, pt, rem, em
+        COR,            // hex, rgb, rgba
+        STRING,         // strings
+        MEDIDA,         // medidas com unidade tipo px, em, rem, vh, vw, pt etc
+        PALAVRA_CHAVE,  // bold, center, none, block, flex, etc
         INVALIDO
     }
-    
+
+    // copiado do codigo do danilo
     private class EntradaTabelaSimbolos {
         private String nome;
         private TipoCSSSharp tipo;
-        private String valor;  // Armazena o valor da variável
-        
+        private String valor;
+
+
         private EntradaTabelaSimbolos(String nome, TipoCSSSharp tipo, String valor) {
             this.nome = nome;
             this.tipo = tipo;
@@ -53,4 +55,7 @@ public class TabelaDeSimbolos {
         }
         return null;
     }
+
+
+
 }

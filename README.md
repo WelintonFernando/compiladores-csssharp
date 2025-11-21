@@ -344,7 +344,7 @@ Fornece utilitários para validação semântica.
 #### 4.2.1 Coleção de Erros
 
 ```java
-public static List<String> errosSemanticos
+public static List<String> errosSemanticos;
 ```
 Lista centralizada que acumula todos os erros encontrados durante a análise.
 
